@@ -18,3 +18,5 @@ Class: <?= $pc->getClass(); ?> <br /><br />
         <td>cha: <?= $pc->getCha(); ?></td>
     </tr>
 </table>
+
+Backstory: <?= $pc->getBackstory(); ?>

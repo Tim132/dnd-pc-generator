@@ -9,6 +9,7 @@
 class pc {
     private $_class = '';
     private $_race = '';
+    private $_backstory = '';
 
     private $_str = 1;
     private $_dex = 1;
@@ -150,6 +151,17 @@ class pc {
         $this->_cha = $cha;
     }
 
+    public function setTrait($trait)
+    {
+        $this->_trait = $trait;
+    }
 
+    public function setBackstory($backstory){
+        $this->_backstory = $backstory;
+    }
+
+    public function getBackstory(){
+        return $this->_backstory;
+    }
 
 }
