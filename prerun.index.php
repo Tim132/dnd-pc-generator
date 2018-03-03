@@ -71,12 +71,11 @@ $stats = [];
 for($i = 0; $i < 6; $i++) {
     $stats[] = rollstat();
 }
+$stats = sortStats($stats);
 
 //set random race and class
 $pc->setRace($races[array_rand($races)]);
 $pc->setClass(array_rand($classes));
-
-//TODO Order stats here
 
 //set the stats required for the class
 foreach($classes[$pc->getClass()]['statOrder'] as $i => $stat) {
@@ -144,6 +143,19 @@ function rollstat() {
     //subtract the lowest value
     $total -= min($diceValues);
     return $total;
+}
+
+function sortStats($stats) {
+    for($i=0;$i<count($stats);$i++){
+        $value = $stats[$i];
+        $j = $i-1;
+        while($j>=0 && $stats[$j] < $value){
+            $stats[$j+1] = $stats[$j];
+            $j--;
+        }
+        $stats[$j+1] = $value;
+    }
+    return $stats;
 }
 
 
