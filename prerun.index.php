@@ -1,21 +1,7 @@
 <?php
 require_once 'models/dice.class.php';
 require_once 'models/pc.class.php';
-
-$classes = [
-    'Barbarian',
-    'Bard',
-    'Cleric',
-    'Druid',
-    'Fighter',
-    'Monk',
-    'Paladin',
-    'Ranger',
-    'Rogue',
-    'Sorcerer',
-    'Warlock',
-    'Wizard'
-];
+require_once 'config/classes.conf.php';
 
 $races = [
     'Dwarf',
@@ -80,17 +66,44 @@ $personalReason =[
 //make a pc object for data storage
 $pc = new pc();
 
-//roll stats
-$pc->setStr(rollstat());
-$pc->setDex(rollstat());
-$pc->setCon(rollstat());
-$pc->setInt(rollstat());
-$pc->setWis(rollstat());
-$pc->setCha(rollstat());
+//roll 6 stats
+$stats = [];
+for($i = 0; $i < 6; $i++) {
+    $stats[] = rollstat();
+}
 
 //set random race and class
 $pc->setRace($races[array_rand($races)]);
-$pc->setClass($classes[array_rand($classes)]);
+$pc->setClass(array_rand($classes));
+
+//TODO Order stats here
+
+//set the stats required for the class
+foreach($classes[$pc->getClass()]['statOrder'] as $i => $stat) {
+    switch($stat) {
+        case 'str':
+            $pc->setStr($stats[$i]);
+            break;
+        case 'dex':
+            $pc->setDex($stats[$i]);
+            break;
+        case 'con':
+            $pc->setCon($stats[$i]);
+            break;
+        case 'int':
+            $pc->setInt($stats[$i]);
+            break;
+        case 'wis':
+            $pc->setWis($stats[$i]);
+            break;
+        case 'cha':
+            $pc->setCha($stats[$i]);
+            break;
+        default:
+            //TODO some error handling here, for now we just kill
+            die('Error: Invalid statorder ' . $stat . ' in ' . $pc->getClass());
+    }
+}
 
 $pc->setTrait($traits[array_rand($traits)]);
 
