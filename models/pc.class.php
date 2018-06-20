@@ -6,7 +6,8 @@
  * Time: 21:09
  */
 
-class pc {
+class pc
+{
     private $_class = '';
     private $_race = '';
     private $_backstory = '';
@@ -71,6 +72,11 @@ class pc {
         $this->_str = $str;
     }
 
+    public function increaseStr($str)
+    {
+        $this->_str += $str;
+    }
+
     /**
      * @return int
      */
@@ -85,6 +91,11 @@ class pc {
     public function setDex($dex)
     {
         $this->_dex = $dex;
+    }
+
+    public function increaseDex($dex)
+    {
+        $this->_dex += $dex;
     }
 
     /**
@@ -103,6 +114,11 @@ class pc {
         $this->_con = $con;
     }
 
+    public function increaseCon($con)
+    {
+        $this->_con += $con;
+    }
+
     /**
      * @return int
      */
@@ -117,6 +133,11 @@ class pc {
     public function setInt($int)
     {
         $this->_int = $int;
+    }
+
+    public function increaseInt($int)
+    {
+        $this->_int += $int;
     }
 
     /**
@@ -135,6 +156,11 @@ class pc {
         $this->_wis = $wis;
     }
 
+    public function increaseWis($wis)
+    {
+        $this->_wis += $wis;
+    }
+
     /**
      * @return int
      */
@@ -151,16 +177,23 @@ class pc {
         $this->_cha = $cha;
     }
 
+    public function increaseCha($cha)
+    {
+        $this->_cha += $cha;
+    }
+
     public function setTrait($trait)
     {
         $this->_trait = $trait;
     }
 
-    public function setBackstory($backstory){
+    public function setBackstory($backstory)
+    {
         $this->_backstory = $backstory;
     }
 
-    public function getBackstory(){
+    public function getBackstory()
+    {
         return $this->_backstory;
     }
 

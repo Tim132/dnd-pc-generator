@@ -16,7 +16,7 @@ for($i = 0; $i < 6; $i++) {
 $stats = sortStats($stats);
 
 //set random race and class
-$pc->setRace($raceNames[array_rand($raceNames)]);
+$pc->setRace(array_rand($races));
 $pc->setClass(array_rand($classes));
 
 //set the stats required for the class
@@ -46,10 +46,12 @@ foreach($classes[$pc->getClass()]['statOrder'] as $i => $stat) {
     }
 }
 
+$pc = assignRacialBonuses($pc, $races[$pc->getRace()]);
+
 $pc->setTrait($traits[array_rand($traits)]);
 
 $backstory = [
-    "you're a " . $pc->getRace() . ' ' . $pc->getClass() . ' who ' . $verbsAboutRaces[array_rand($verbsAboutRaces)] . ' ' . $raceNames[array_rand($raceNames)] . 's because ' . $reasonsAboutRaces[array_rand($reasonsAboutRaces)],
+    "you're a " . $pc->getRace() . ' ' . $pc->getClass() . ' who ' . $verbsAboutRaces[array_rand($verbsAboutRaces)] . ' ' . array_rand($races) . 's because ' . $reasonsAboutRaces[array_rand($reasonsAboutRaces)],
     "you're a " . $pc->getRace(). ' ' . $pc->getClass() . ' who ' . $personalReason[array_rand($personalReason)]
 ];
 
@@ -98,6 +100,40 @@ function sortStats($stats) {
         $stats[$j+1] = $value;
     }
     return $stats;
+}
+
+/**
+ * @param pc $pc
+ * @param array $raceData
+ */
+function assignRacialBonuses($pc, $raceData) {
+    foreach ($raceData['stats'] as $stat => $value) {
+        switch($stat) {
+            case 'str':
+                $pc->increaseStr($value);
+                break;
+            case 'dex':
+                $pc->increaseDex($value);
+                break;
+            case 'con':
+                $pc->increaseCon($value);
+                break;
+            case 'int':
+                $pc->increaseInt($value);
+                break;
+            case 'wis':
+                $pc->increaseWis($value);
+                break;
+            case 'cha':
+                $pc->increaseCha($value);
+                break;
+            default:
+                //TODO some error handling here, for now we just kill
+                die('Error: Invalid statorder ' . $stat . ' in ' . $pc->getRace());
+        }
+    }
+
+    return $pc;
 }
 
 

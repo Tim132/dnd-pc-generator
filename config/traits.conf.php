@@ -1,15 +1,4 @@
 <?php
-$raceNames = [
-    'Dwarf',
-    'Elf',
-    'Halfling',
-    'Human',
-    'Dragonborn',
-    'Gnome',
-    'Half-Elf',
-    'Half-Orc',
-    'Tiefling'
-];
 
 //todo add more traits
 //you're $trait who $verbsaboutraces $race $reasonaboutraces
