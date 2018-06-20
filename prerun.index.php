@@ -10,7 +10,7 @@ $pc = new pc();
 
 //roll 6 stats
 $stats = [];
-for($i = 0; $i < 6; $i++) {
+for ($i = 0; $i < 6; $i++) {
     $stats[] = rollstat();
 }
 $stats = sortStats($stats);
@@ -20,8 +20,8 @@ $pc->setRace(array_rand($races));
 $pc->setClass(array_rand($classes));
 
 //set the stats required for the class
-foreach($classes[$pc->getClass()]['statOrder'] as $i => $stat) {
-    switch($stat) {
+foreach ($classes[$pc->getClass()]['statOrder'] as $i => $stat) {
+    switch ($stat) {
         case 'str':
             $pc->setStr($stats[$i]);
             break;
@@ -47,17 +47,22 @@ foreach($classes[$pc->getClass()]['statOrder'] as $i => $stat) {
 }
 
 $pc = assignRacialBonuses($pc, $races[$pc->getRace()]);
+$pc = assignRacialFeatures($pc, $races[$pc->getRace()]['features']);
 
 $pc->setTrait($traits[array_rand($traits)]);
 
 $backstory = [
     "you're a " . $pc->getRace() . ' ' . $pc->getClass() . ' who ' . $verbsAboutRaces[array_rand($verbsAboutRaces)] . ' ' . array_rand($races) . 's because ' . $reasonsAboutRaces[array_rand($reasonsAboutRaces)],
-    "you're a " . $pc->getRace(). ' ' . $pc->getClass() . ' who ' . $personalReason[array_rand($personalReason)]
+    "you're a " . $pc->getRace() . ' ' . $pc->getClass() . ' who ' . $personalReason[array_rand($personalReason)]
 ];
 
 $pc->setBackstory($backstory[array_rand($backstory)]);
 
-function rollstat() {
+/**
+ * @return int
+ */
+function rollstat()
+{
     //make 4 d6's
     $dice1 = new dice(6);
     $dice2 = new dice(6);
@@ -80,7 +85,7 @@ function rollstat() {
 
     //add the values from the 4d6 together
     $total = 0;
-    foreach($diceValues as $diceValue) {
+    foreach ($diceValues as $diceValue) {
         $total += $diceValue;
     }
 
@@ -89,15 +94,16 @@ function rollstat() {
     return $total;
 }
 
-function sortStats($stats) {
-    for($i=0;$i<count($stats);$i++){
+function sortStats($stats)
+{
+    for ($i = 0; $i < count($stats); $i++) {
         $value = $stats[$i];
-        $j = $i-1;
-        while($j>=0 && $stats[$j] < $value){
-            $stats[$j+1] = $stats[$j];
+        $j = $i - 1;
+        while ($j >= 0 && $stats[$j] < $value) {
+            $stats[$j + 1] = $stats[$j];
             $j--;
         }
-        $stats[$j+1] = $value;
+        $stats[$j + 1] = $value;
     }
     return $stats;
 }
@@ -105,10 +111,13 @@ function sortStats($stats) {
 /**
  * @param pc $pc
  * @param array $raceData
+ *
+ * @return pc
  */
-function assignRacialBonuses($pc, $raceData) {
+function assignRacialBonuses($pc, $raceData)
+{
     foreach ($raceData['stats'] as $stat => $value) {
-        switch($stat) {
+        switch ($stat) {
             case 'str':
                 $pc->increaseStr($value);
                 break;
@@ -133,6 +142,19 @@ function assignRacialBonuses($pc, $raceData) {
         }
     }
 
+    return $pc;
+}
+
+/**
+ * @param pc $pc
+ * @param array $features
+ *
+ * @return pc
+ */
+function assignRacialFeatures($pc, $features) {
+    foreach ($features as $feature) {
+        $pc->addFeature($feature);
+    }
     return $pc;
 }
 

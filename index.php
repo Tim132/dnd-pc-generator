@@ -18,5 +18,12 @@ Class: <?= $pc->getClass(); ?> <br /><br />
         <td>cha: <?= $pc->getCha(); ?></td>
     </tr>
 </table>
+<br />
+Features:
+<ul>
+    <?php foreach ($pc->getFeatures() as $feature): ?>
+    <li><?= $feature; ?></li>
+    <?php endforeach; ?>
+</ul>
 
 Backstory: <?= $pc->getBackstory(); ?>

@@ -19,6 +19,8 @@ class pc
     private $_wis = 1;
     private $_cha = 1;
 
+    private $_features = [];
+
     public function __construct()
     {
         //constructor
@@ -72,6 +74,9 @@ class pc
         $this->_str = $str;
     }
 
+    /**
+     * @param int $str
+     */
     public function increaseStr($str)
     {
         $this->_str += $str;
@@ -93,6 +98,9 @@ class pc
         $this->_dex = $dex;
     }
 
+    /**
+     * @param int $dex
+     */
     public function increaseDex($dex)
     {
         $this->_dex += $dex;
@@ -114,6 +122,9 @@ class pc
         $this->_con = $con;
     }
 
+    /**
+     * @param int $con
+     */
     public function increaseCon($con)
     {
         $this->_con += $con;
@@ -135,6 +146,9 @@ class pc
         $this->_int = $int;
     }
 
+    /**
+     * @param int $int
+     */
     public function increaseInt($int)
     {
         $this->_int += $int;
@@ -156,6 +170,9 @@ class pc
         $this->_wis = $wis;
     }
 
+    /**
+     * @param int $wis
+     */
     public function increaseWis($wis)
     {
         $this->_wis += $wis;
@@ -177,24 +194,51 @@ class pc
         $this->_cha = $cha;
     }
 
+    /**
+     * @param int $cha
+     */
     public function increaseCha($cha)
     {
         $this->_cha += $cha;
     }
 
+    /**
+     * @param string $trait
+     */
     public function setTrait($trait)
     {
         $this->_trait = $trait;
     }
 
+    /**
+     * @param string $backstory
+     */
     public function setBackstory($backstory)
     {
         $this->_backstory = $backstory;
     }
 
+    /**
+     * @return string
+     */
     public function getBackstory()
     {
         return $this->_backstory;
+    }
+
+    /**
+     * @param string $feature
+     */
+    public function addFeature($feature)
+    {
+        $this->_features[] = $feature;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getFeatures() {
+        return $this->_features;
     }
 
 }
