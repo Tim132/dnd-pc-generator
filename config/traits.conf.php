@@ -1,8 +1,8 @@
 <?php
 
 //todo add more traits
-//you're $trait who $verbsaboutraces $race $reasonaboutraces
-//you're $trait who &personalreason
+//you're $trait $race who $verbsaboutraces $race $reasonaboutraces
+//you're $trait $race who &personalreason
 $traits = [
     'an adventurous', 'an agreeable', 'an anxious', 'an athletic', 'an apathetic',
     'a brilliant', 'a benevolent', 'a brave', 'a bitter', 'a bossy',
