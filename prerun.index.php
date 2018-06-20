@@ -4,9 +4,10 @@ require_once 'models/pc.class.php';
 require_once 'config/classes.conf.php';
 require_once 'config/races.conf.php';
 require_once 'config/traits.conf.php';
+require_once 'utility/pc.util.php';
 
 //make a pc object for data storage
-$pc = new pc();
+$pc = new Pc();
 
 //roll 6 stats
 $stats = [];
@@ -18,36 +19,9 @@ $stats = sortStats($stats);
 //set random race and class
 $pc->setRace(array_rand($races));
 $pc->setClass(array_rand($classes));
-
-//set the stats required for the class
-foreach ($classes[$pc->getClass()]['statOrder'] as $i => $stat) {
-    switch ($stat) {
-        case 'str':
-            $pc->setStr($stats[$i]);
-            break;
-        case 'dex':
-            $pc->setDex($stats[$i]);
-            break;
-        case 'con':
-            $pc->setCon($stats[$i]);
-            break;
-        case 'int':
-            $pc->setInt($stats[$i]);
-            break;
-        case 'wis':
-            $pc->setWis($stats[$i]);
-            break;
-        case 'cha':
-            $pc->setCha($stats[$i]);
-            break;
-        default:
-            //TODO some error handling here, for now we just kill
-            die('Error: Invalid statorder ' . $stat . ' in ' . $pc->getClass());
-    }
-}
-
-$pc = assignRacialBonuses($pc, $races[$pc->getRace()]);
-$pc = assignRacialFeatures($pc, $races[$pc->getRace()]['features']);
+$pc = PcUtil::setStatsForRace($pc, $classes[$pc->getClass()]['statOrder'], $stats);
+$pc = PcUtil::assignRacialBonuses($pc, $races[$pc->getRace()]);
+$pc = PcUtil::assignRacialFeatures($pc, $races[$pc->getRace()]['features']);
 
 $pc->setTrait($traits[array_rand($traits)]);
 
@@ -64,10 +38,10 @@ $pc->setBackstory($backstory[array_rand($backstory)]);
 function rollstat()
 {
     //make 4 d6's
-    $dice1 = new dice(6);
-    $dice2 = new dice(6);
-    $dice3 = new dice(6);
-    $dice4 = new dice(6);
+    $dice1 = new Dice(6);
+    $dice2 = new Dice(6);
+    $dice3 = new Dice(6);
+    $dice4 = new Dice(6);
 
     //roll 4d6
     $dice1->roll();
@@ -94,6 +68,10 @@ function rollstat()
     return $total;
 }
 
+/**
+ * @param array $stats
+ * @return array<int>
+ */
 function sortStats($stats)
 {
     for ($i = 0; $i < count($stats); $i++) {
@@ -107,56 +85,3 @@ function sortStats($stats)
     }
     return $stats;
 }
-
-/**
- * @param pc $pc
- * @param array $raceData
- *
- * @return pc
- */
-function assignRacialBonuses($pc, $raceData)
-{
-    foreach ($raceData['stats'] as $stat => $value) {
-        switch ($stat) {
-            case 'str':
-                $pc->increaseStr($value);
-                break;
-            case 'dex':
-                $pc->increaseDex($value);
-                break;
-            case 'con':
-                $pc->increaseCon($value);
-                break;
-            case 'int':
-                $pc->increaseInt($value);
-                break;
-            case 'wis':
-                $pc->increaseWis($value);
-                break;
-            case 'cha':
-                $pc->increaseCha($value);
-                break;
-            default:
-                //TODO some error handling here, for now we just kill
-                die('Error: Invalid statorder ' . $stat . ' in ' . $pc->getRace());
-        }
-    }
-
-    return $pc;
-}
-
-/**
- * @param pc $pc
- * @param array $features
- *
- * @return pc
- */
-function assignRacialFeatures($pc, $features) {
-    foreach ($features as $feature) {
-        $pc->addFeature($feature);
-    }
-    return $pc;
-}
-
-
-

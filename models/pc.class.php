@@ -6,7 +6,7 @@
  * Time: 21:09
  */
 
-class pc
+class Pc
 {
     private $_class = '';
     private $_race = '';

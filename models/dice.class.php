@@ -6,7 +6,7 @@
  * Time: 21:13
  */
 
-class dice {
+class Dice {
     private $_max = 1;
     private $_value = 1;
 
